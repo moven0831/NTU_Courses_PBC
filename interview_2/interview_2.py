@@ -16,7 +16,6 @@ class Best_prediction:
         for i in range(self.stock_number):
             self.eigenvalues_matrix.append([int(j) for j in input().split(',')])
         self.create_prediction_table()
-            
 
     def create_prediction_table(self):
         for value in range(self.eigenvalues_number):
@@ -25,15 +24,19 @@ class Best_prediction:
                 self.analyse(value=value, stock=stock_i, direction=-1)
 
     def analyse(self, value, stock, direction):
-        self.analysis_table['predicted_bar'].append((value, self.eigenvalues_matrix[stock][value], direction))
+        self.analysis_table['predicted_bar'].append(
+            (value, self.eigenvalues_matrix[stock][value], direction))
         current_prediction = list()
         for each in range(self.stock_number):
+            # rises while prediction is rise as well
             if (self.eigenvalues_matrix[each][value] >= self.eigenvalues_matrix[stock][value] and
                     self.eigenvalues_matrix[each][-1] == direction):
                 current_prediction.append(True)
+            # drops while prediction is down as well
             elif (self.eigenvalues_matrix[each][value] < self.eigenvalues_matrix[stock][value] and
                     self.eigenvalues_matrix[each][-1] == -direction):
                 current_prediction.append(True)
+            # misprediction
             else:
                 current_prediction.append(False)
         self.analysis_table['prediction'].append(current_prediction)
