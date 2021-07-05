@@ -5,7 +5,6 @@ class Best_prediction:
         self.eigenvalues_number = int()
         self.stock_number = int()
         self.eigenvalues_matrix = list()
-        # self.prediction_candidates = set()
         self.analysis_table = {
             'predicted_bar': list(),    # (stock, value, direction)
             'prediction': list(),       # direction: -1 for down, 1 for up
@@ -16,7 +15,8 @@ class Best_prediction:
         self.stock_number = int(input())
         for i in range(self.stock_number):
             self.eigenvalues_matrix.append([int(j) for j in input().split(',')])
-            # self.prediction_candidates.update(self.eigenvalues_matrix[i])
+        self.create_prediction_table()
+            
 
     def create_prediction_table(self):
         for value in range(self.eigenvalues_number):
@@ -42,6 +42,5 @@ class Best_prediction:
 
 prediction = Best_prediction()
 prediction.update()
-prediction.create_prediction_table()
 print(min(prediction.analysis_table['total_error']))
 # print(vars(prediction))
