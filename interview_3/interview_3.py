@@ -56,5 +56,5 @@ class Best_location:
 
 best_location = Best_location()
 best_location.update()
-print(best_location.best)
+print('{},{}'.format(*best_location.best))
 # print(vars(best_location))
