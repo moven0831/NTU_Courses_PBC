@@ -16,6 +16,8 @@ class Classifer:
     
     def update(self):
         self.training_size, self.validating_size = [int(i) for i in input().split(',')]
+
+        # processing training data
         for i in range(self.training_size):
             temp = input()
             avg_sentence_len = self.calculate_sentence_len_avg(temp[2:])
@@ -23,13 +25,15 @@ class Classifer:
             # update avg_upper_bound
             if avg_sentence_len > self.avg_upper_bound:
                 self.avg_upper_bound = int(avg_sentence_len + 1)
+
+            # apend([label: int, avg_sentence_len: int])
             self.training_set.append([int(temp[0]), avg_sentence_len])
+
+        # processing validating data
         for i in range(self.validating_size):
             temp = input()
             avg_sentence_len = self.calculate_sentence_len_avg(temp[2:])
             self.validating_set.append([int(temp[0]), avg_sentence_len])
-        # print(self.training_set)
-        # print(self.validating_set)
     
     def calculate_sentence_len_avg(self, process_section):
         # preserve '.' inside float
@@ -44,15 +48,17 @@ class Classifer:
                         process_section[index+1].isdigit()):
                     process_section = process_section[:index] + '*' + process_section[index+1:]
 
-        # trimming str and calculate the avg
-        for word_seg in ['.', ';', ':', '!', '?']:  # replace words that need to be segmentated
-            process_section = process_section.replace(word_seg, ',')    
+        # replace words that need to be segmentated
+        for word_seg in ['.', ';', ':', '!', '?']:
+            process_section = process_section.replace(word_seg, ',')
 
         # split str by ',' and remove empty str
         process_section = list(filter(None, process_section.strip().split(',')))
 
         # remove space at the beginning and start for each sentence
         process_section = [j.strip() for j in process_section]
+
+        # calculate the avg, then return
         return sum(len(j.split(' ')) for j in process_section) / len(process_section)
     
     def train(self):
